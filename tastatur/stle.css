@@ -1,0 +1,27 @@
+.container {
+    border: 1px solid gray;
+    background-color: gray;
+    display: flex;
+    color: white;
+    width: fit-content;
+    flex-wrap: wrap;
+
+}
+div *{
+    border: 1px solid black;
+    background-color: black;
+    margin: 8px;
+    padding: 12px;
+    width: 40px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+
+}
+.delete {
+    padding: 10px;
+    width: 70px;
+    align-items: end;
+    justify-content: flex-end;
+    
+}
