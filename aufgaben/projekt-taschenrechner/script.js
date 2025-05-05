@@ -1,51 +1,52 @@
-const readline = require("readline").createInterface({
+const readline = require('readline');
+
+const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
 });
 
-function add(a, b) {return a + b;}
-function subtract(a, b) {return a - b;}
-function multiply(a, b) {return a * b;}
-function divide (a, b) {if (b === 0) return "Division durch Null!";
-    return a / b;
-}
-
-function calculator(num1, operator, num2) {
-    num1 = parseFloat(num1);
-    num2 = parseFloat(num2);
-    if (isNaN(num1) || isNaN(num2)) {
-        return "Ungültige Zahlen";
-    }
-    switch (operator) {
-        case '+': return add(num1, num2);
-        case '-': return subtract(num1, num2);
-        case '*': return multiply(num1, num2);
-        case '/': return divide(num1, num2);
-        default: return "Ungültige Operator";
-    }
-}
-
 function askQuestion(query) {
-return new Promise(resolve =>
-    readline.question(query, resolve));
+    return new Promise((resolve) => {
+        rl.question(query, (answer) => {
+            resolve(answer);
+        });
+    });
+}
+
+function calculator(a, op, b) {
+    const num1 = parseFloat(a);
+    const num2 = parseFloat(b);
+    switch (op) {
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': return num2 !== 0 ? num1 / num2 : 'Fehler: Division durch 0';
+        default: return 'Ungültiger Operator';
+    }
 }
 
 async function main() {
-    console.log("Taschenrechner");
+    console.log("╔══════════════════════════════╗");
+    console.log("║        Taschenrechner        ║");
+    console.log("╚══════════════════════════════╝");
 
     while (true) {
-        const num1 = await askQuestion("Gib die erste zahl ein:");
-        const operator = await askQuestion("Gib den Operator ein.(+,-,*,/)");
-        const num2 = await askQuestion("Gib die zweite Zahl ein:");
+        console.log("╔════════ Neue Rechnung ════════╗");
+        const num1 = await askQuestion("║ Erste Zahl: ");
+        const operator = await askQuestion("║ Operator (+, -, *, /): ");
+        const num2 = await askQuestion("║ Zweite Zahl: ");
         const result = calculator(num1, operator, num2);
-        console.log("Ergebnis:", result);
+        console.log("╟──────────────────────────────╢");
+        console.log("║ Ergebnis: " + result);
+        console.log("╚══════════════════════════════╝");
 
-        const again = await askQuestion("Noch eine Rechnung? (ja/nein):");
+        const again = await askQuestion("Noch eine Rechnung? (ja/nein): ");
         if (again.toLowerCase() !== 'ja') {
-            readline.close();
+            console.log("Programm beendet. Auf Wiedersehen!");
+            rl.close(); 
             break;
         }
     }
 }
 
-main();
+main(); 
